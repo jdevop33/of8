@@ -1,7 +1,7 @@
 // app/page.tsx
 'use client';
 
-import { BarChart, Buildings, Users } from 'lucide-react';
+import { BarChart, Building, Users } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -44,7 +44,7 @@ export default function Home() {
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-lg">
-              <Buildings className="w-12 h-12 text-[#8C1F28] mb-4" />
+              <Building className="w-12 h-12 text-[#8C1F28] mb-4" />
               <h3 className="text-xl font-bold mb-2">Department Management</h3>
               <p className="text-gray-600">
                 Track and optimize spending across all departments
