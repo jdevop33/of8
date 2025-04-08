@@ -1,0 +1,150 @@
+import React from 'react';
+import { TabGroup, Tab } from './components/ui/tabs';
+import { Card } from './components/ui/card';
+import { BarChart, LineChart } from 'recharts';
+import { AlertCircle, TrendingUp, DollarSign } from 'lucide-react';
+
+const FinanceDashboard = () => {
+  // Department budget tracking with alerts
+  const budgetStatus = [
+    {
+      department: "Public Works",
+      budget: 1000000,
+      spent: 750000,
+      projected: 980000,
+      alert: false
+    },
+    {
+      department: "Public Safety",
+      budget: 2000000,
+      spent: 1800000,
+      projected: 2100000,
+      alert: true
+    }
+  ];
+
+  // Compliance tracking
+  const complianceItems = [
+    {
+      title: "Q3 Financial Report",
+      dueDate: "2024-10-15",
+      status: "pending",
+      type: "quarterly"
+    },
+    {
+      title: "Annual Audit",
+      dueDate: "2024-12-31",
+      status: "upcoming",
+      type: "annual"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <header className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-900">
+          Financial Control Center
+        </h1>
+        <p className="text-gray-600">
+          FY 2024 Q3 Overview
+        </p>
+      </header>
+
+      {/* Critical Alerts Section */}
+      <section className="mb-8">
+        <Card className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-semibold mb-4">Critical Alerts</h2>
+          <div className="space-y-4">
+            {budgetStatus
+              .filter(dept => dept.alert)
+              .map(dept => (
+                <div key={dept.department} 
+                     className="flex items-center p-4 bg-red-50 rounded-lg">
+                  <AlertCircle className="text-red-500 mr-3" />
+                  <div>
+                    <p className="font-medium text-red-800">
+                      {dept.department} projected to exceed budget
+                    </p>
+                    <p className="text-sm text-red-600">
+                      Projected: ${dept.projected.toLocaleString()} 
+                      (${(dept.projected - dept.budget).toLocaleString()} over budget)
+                    </p>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </Card>
+      </section>
+
+      {/* Department Budget Tracking */}
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <Card className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-semibold mb-4">
+            Department Spending
+          </h2>
+          <div className="space-y-4">
+            {budgetStatus.map(dept => (
+              <div key={dept.department} className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-medium">{dept.department}</span>
+                  <span className={dept.alert ? 'text-red-600' : 'text-green-600'}>
+                    {Math.round((dept.spent / dept.budget) * 100)}% Used
+                  </span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full">
+                  <div 
+                    className={`h-2 rounded-full ${
+                      dept.alert ? 'bg-red-500' : 'bg-green-500'
+                    }`}
+                    style={{
+                      width: `${(dept.spent / dept.budget) * 100}%`
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* Compliance Calendar */}
+        <Card className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-semibold mb-4">
+            Upcoming Deadlines
+          </h2>
+          <div className="space-y-4">
+            {complianceItems.map(item => (
+              <div key={item.title} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div>
+                  <p className="font-medium">{item.title}</p>
+                  <p className="text-sm text-gray-600">Due: {item.dueDate}</p>
+                </div>
+                <span className={`px-3 py-1 rounded-full text-sm ${
+                  item.status === 'pending' 
+                    ? 'bg-yellow-100 text-yellow-800'
+                    : 'bg-blue-100 text-blue-800'
+                }`}>
+                  {item.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <button className="p-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+          Generate Financial Report
+        </button>
+        <button className="p-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+          Update Budget Projections
+        </button>
+        <button className="p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+          Review Grant Opportunities
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default FinanceDashboard;
